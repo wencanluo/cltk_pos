@@ -15,7 +15,7 @@ from statistics import mean
 from statistics import stdev
 import sys
 
-def cltk_pos_cv(full_training_set):
+def cltk_pos_cv(full_training_set, local_dir_rel):
     print("full_training_set", full_training_set)
 
     unigram_accuracies = []
@@ -57,7 +57,7 @@ def cltk_pos_cv(full_training_set):
         training_set = [item for sublist in training_set_lists for item in sublist]
             
         # save shuffled tests to file (as NLTK trainers expect)
-        local_dir_rel = '~/cltk_data/user_data'
+        #local_dir_rel = '~/cltk_data/user_data'
         local_dir = os.path.expanduser(local_dir_rel)
         if not os.path.isdir(local_dir):
             os.makedirs(local_dir)
@@ -71,6 +71,7 @@ def cltk_pos_cv(full_training_set):
             f.write('\n\n'.join(training_set))
 
         # read POS corpora
+        print("local_dir", local_dir)
         train_reader = TaggedCorpusReader(local_dir, 'train.pos')
         train_sents = train_reader.tagged_sents()
 
@@ -86,6 +87,7 @@ def cltk_pos_cv(full_training_set):
         unigram_accuracies.append(unigram_accuracy)
         print('Unigram:', unigram_accuracy)
         
+        '''
         # make bigram tagger
         bigram_tagger = BigramTagger(train_sents)
         # evaluate bigram tagger
@@ -121,12 +123,16 @@ def cltk_pos_cv(full_training_set):
         tnt_accuracies.append(tnt_accuracy)
         print('TnT:', tnt_accuracy)
 
+        '''
+        if counter > 0: break
+
     final_accuracies_list = []
     mean_accuracy_unigram = mean(unigram_accuracies)
     standard_deviation_unigram = stdev(unigram_accuracies)
     uni = {'unigram': {'mean': mean_accuracy_unigram, 'sd': standard_deviation_unigram}}
     final_accuracies_list.append(uni)
 
+    '''
     mean_accuracy_bigram = mean(bigram_accuracies)
     standard_deviation_bigram = stdev(bigram_accuracies)
     bi = {'bigram': {'mean': mean_accuracy_bigram, 'sd': standard_deviation_bigram}}
@@ -146,6 +152,7 @@ def cltk_pos_cv(full_training_set):
     standard_deviation_tnt = stdev(tnt_accuracies)
     tnt_score = {'tnt': {'mean': mean_accuracy_tnt, 'sd': standard_deviation_tnt}}
     final_accuracies_list.append(tnt_score)
+    '''
 
     final_dict = {}
     for x in final_accuracies_list:
@@ -156,9 +163,12 @@ def cltk_pos_cv(full_training_set):
 if __name__ == "__main__":
     #latin_full_training_set = '/media/wencan/Private/project/gsoc2016/data/latin_treebank_perseus/latin_training_set.pos'
     #greek_full_training_set = '/media/wencan/Private/project/gsoc2016/data/greek_treebank_perseus/greek_training_set.pos'
-    
+    #local_dir_rel = '~/cltk_data/user_data'
+
     full_training_set = sys.argv[1]
-    final_dict = cltk_pos_cv(full_training_set)
+    local_dir_rel = sys.argv[2]
+    
+    final_dict = cltk_pos_cv(full_training_set, local_dir_rel)
 
     df = pd.DataFrame(final_dict)
     print(df)

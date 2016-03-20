@@ -1,7 +1,9 @@
+"""An example using CLTK taggers."""
+
 from cltk.corpus.utils.importer import CorpusImporter
 from cltk.tag import pos
 
-def pos_tagger_example():
+def pos_tagger_example_latin():
     corpus_importer = CorpusImporter('latin')
     corpus_importer.import_corpus('latin_models_cltk')
 
@@ -11,6 +13,6 @@ def pos_tagger_example():
     print(pos_tags)
     
 if __name__ == "__main__":
-    pos_tagger_example()
+    pos_tagger_example_latin()
 
     

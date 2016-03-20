@@ -87,7 +87,6 @@ def cltk_pos_cv(full_training_set, local_dir_rel):
         unigram_accuracies.append(unigram_accuracy)
         print('Unigram:', unigram_accuracy)
         
-        '''
         # make bigram tagger
         bigram_tagger = BigramTagger(train_sents)
         # evaluate bigram tagger
@@ -123,16 +122,12 @@ def cltk_pos_cv(full_training_set, local_dir_rel):
         tnt_accuracies.append(tnt_accuracy)
         print('TnT:', tnt_accuracy)
 
-        '''
-        if counter > 0: break
-
     final_accuracies_list = []
     mean_accuracy_unigram = mean(unigram_accuracies)
     standard_deviation_unigram = stdev(unigram_accuracies)
     uni = {'unigram': {'mean': mean_accuracy_unigram, 'sd': standard_deviation_unigram}}
     final_accuracies_list.append(uni)
 
-    '''
     mean_accuracy_bigram = mean(bigram_accuracies)
     standard_deviation_bigram = stdev(bigram_accuracies)
     bi = {'bigram': {'mean': mean_accuracy_bigram, 'sd': standard_deviation_bigram}}
@@ -152,7 +147,6 @@ def cltk_pos_cv(full_training_set, local_dir_rel):
     standard_deviation_tnt = stdev(tnt_accuracies)
     tnt_score = {'tnt': {'mean': mean_accuracy_tnt, 'sd': standard_deviation_tnt}}
     final_accuracies_list.append(tnt_score)
-    '''
 
     final_dict = {}
     for x in final_accuracies_list:

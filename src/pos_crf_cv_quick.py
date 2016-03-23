@@ -1,4 +1,4 @@
-"""An evaluation of CLTK taggers."""
+"""An evaluation of CRF taggers."""
 
 from nltk.corpus.reader import TaggedCorpusReader
 from nltk.tag import CRFTagger
@@ -95,18 +95,20 @@ def cltk_pos_cv(full_training_set, local_dir_rel, counter):
     
     sys.stdout = stdout_old
 
-def gather_performance():    
-    final_accuracies_list = []
+def gather_performance(local_dir_rel):
+    local_dir = os.path.expanduser(local_dir_rel)
+    
+    crf_accuracies = []
+    for i in range(10):
+        lines = open( os.path.join(local_dir, 'test_%d.out'%i) ).readlines()
+        accuracy = lines[-1][len('crf:')+1:-1].strip()        
+        crf_accuracies.append(float(accuracy))
+
     mean_accuracy_crf = mean(crf_accuracies)
     standard_deviation_crf = stdev(crf_accuracies)
     uni = {'crf': {'mean': mean_accuracy_crf, 'sd': standard_deviation_crf}}
-    final_accuracies_list.append(uni)
-
-    final_dict = {}
-    for x in final_accuracies_list:
-        final_dict.update(x)
     
-    return final_dict
+    return mean_accuracy_crf, standard_deviation_crf
 
 if __name__ == "__main__":
     #latin_full_training_set = '/media/wencan/Private/project/gsoc2016/data/latin_treebank_perseus/latin_training_set.pos'
@@ -123,11 +125,8 @@ if __name__ == "__main__":
         counter = int(sys.argv[4])
         cltk_pos_cv(full_training_set, local_dir_rel, counter)
     if task == '3':#gather accuacy
-        gather_performance()
-        final_dict = cltk_pos_cv(full_training_set, local_dir_rel)
-
-        df = pd.DataFrame(final_dict)
-        print(df)
+        mean, std = gather_performance(local_dir_rel)
+        print(mean, '\t', std)
     
 
     

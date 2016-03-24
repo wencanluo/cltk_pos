@@ -163,9 +163,13 @@ if __name__ == "__main__":
     local_dir_rel = sys.argv[2]
     
     final_dict = cltk_pos_cv(full_training_set, local_dir_rel)
-
+    
     df = pd.DataFrame(final_dict)
+    
+    local_dir = os.path.expanduser(local_dir_rel)
+    sys.stdout = open(os.path.join(local_dir, 'test.out'), 'w')
     print(df)
+    sys.stdout.close()
     
 
     

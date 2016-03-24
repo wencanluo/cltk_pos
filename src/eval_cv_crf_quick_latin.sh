@@ -1,4 +1,4 @@
-for p in $(seq 3 8)
+for p in $(seq 7 8)
 do
     datadir=~/cltk_data/user_data/latin_crf_quick_$p
     train=/media/wencan/Private/project/gsoc2016/data/latin_treebank_perseus/latin_training_set_$p.pos

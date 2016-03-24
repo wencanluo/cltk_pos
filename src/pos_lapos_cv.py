@@ -42,14 +42,14 @@ def split_10fold(full_training_set, local_dir_rel):
     #for counter in list(range(10)):
     for counter, part in list(enumerate(ten_parts)):
         # map test list to part of given loop
-        test_set = ten_parts[counter]  # or: test_set = part
+        test_set = [item for item in ten_parts[counter] if len(item) > 0]  # or: test_set = part
         
         # filter out this loop's test index
         training_set_lists = [x for x in ten_parts if x is not ten_parts[counter]]
         
         # next concatenate the list together into 1 file ( http://stackoverflow.com/a/952952 )
-        training_set = [item for sublist in training_set_lists for item in sublist]
-            
+        training_set = [item for sublist in training_set_lists for item in sublist if len(item) > 0]
+        
         # save shuffled tests to file (as NLTK trainers expect)
         #local_dir_rel = '~/cltk_data/user_data'
         local_dir = os.path.expanduser(local_dir_rel)

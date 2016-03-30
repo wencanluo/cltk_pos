@@ -1,11 +1,11 @@
 language=greek
 
-lapos_home=../../lapos-0.1.2/
+lapos_home=../../lapos/
 
 p=$1
 
-datadir=~/cltk_data/user_data/$language\_lapos_translate$p
-train=../../data/$language\_treebank_perseus/$language\_training_set$p.pos.translate
+datadir=~/cltk_data/user_data/$language\_lapos_translate_$p
+train=../../data/$language\_treebank_perseus/$language\_training_set_$p.pos.translate
 
 python pos_lapos_cv.py $train $datadir 1
 
